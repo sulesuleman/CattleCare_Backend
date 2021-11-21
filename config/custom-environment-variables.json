@@ -1,0 +1,5 @@
+{
+  "NODE_ENV": "prod_env",
+  "jwtPrivateKey": "cattle_care_key",
+  "db": "cattle_care_db"
+}

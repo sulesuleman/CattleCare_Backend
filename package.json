@@ -1,0 +1,55 @@
+{
+  "name": "school-solver-api",
+  "version": "1.0.0",
+  "description": "School-Solver Application Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "SET NODE_ENV=development && nodemon --inspect index.js",
+    "prod": "SET NODE_ENV=production && node index.js",
+    "test": "SET NODE_ENV=test&& node index.js",
+    "staging": "SET NODE_ENV=staging && node index.js"
+  },
+  "engines": {
+    "node": "10.15.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chwasifjameel/school-solver-api.git"
+  },
+  "author": "Syed Minhal Hasan",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
+    "aws-sdk": "^2.750.0",
+    "axios": "^0.18.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "config": "^3.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^3.21.1",
+    "ip": "^1.1.5",
+    "jade": "^1.11.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.3",
+    "multer": "^1.4.2",
+    "node-cron": "^2.0.3",
+    "nodemailer": "^6.4.2",
+    "nodemailer-express-handlebars": "^4.0.0",
+    "nodemon": "^2.0.7",
+    "path": "^0.12.7",
+    "socket.io": "^4.0.1",
+    "speakeasy": "^2.0.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.1.0",
+    "winston-mongodb": "^4.0.3"
+  },
+  "devDependencies": {}
+}
