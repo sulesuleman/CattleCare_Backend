@@ -4,7 +4,7 @@ const winston = require("winston");
 const config = require("config");
 require("winston-mongodb");
 
-const db = "mongodb + srv://bilal123:cattleCare123@cattlecare.e6ug9.mongodb.net/CattleCare?retryWrites=true&w=majority";
+const db = "mongodb+srv://bilal123:cattleCare123@cattlecare.e6ug9.mongodb.net/CattleCare?retryWrites=true&w=majority";
 const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.colorize({ message: true }),

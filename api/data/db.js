@@ -4,7 +4,7 @@ const config = require("config");
 mongoose.Promise = require("bluebird");
 
 module.exports = function () {
-  const db = "mongodb+srv://bilal123:cattleCare123@cattlecare.e6ug9.mongodb.net/CattleCare?retryWrites=true&w=majority";
+  const db = config.get("db");
   // const db =
   //   config.get("NODE_ENV") === "production"
   //     ? config.get("db_prod")
@@ -12,6 +12,7 @@ module.exports = function () {
   winstonLogger.info("DB is: ", db);
   mongoose.connect(db, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: false,
   });
