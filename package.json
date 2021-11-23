@@ -1,7 +1,7 @@
 {
-  "name": "school-solver-api",
+  "name": "cattle-care-api",
   "version": "1.0.0",
-  "description": "School-Solver Application Backend",
+  "description": "Cattle-Care Application Backend",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -15,9 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chwasifjameel/school-solver-api.git"
+    "url": "https://github.com/sulesuleman/CattleCare_Backend.git"
   },
-  "author": "Syed Minhal Hasan",
+  "author": "Bilal",
   "license": "MIT",
   "homepage": "",
   "dependencies": {
