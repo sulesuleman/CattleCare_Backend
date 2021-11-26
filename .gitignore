@@ -4,4 +4,3 @@ yarn-error.log
 logFile.log
 api/uploads/
 config/default.json
-.env

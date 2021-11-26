@@ -5,8 +5,6 @@ const {
   validateEmail,
 } = require('../data/user.model');
 
-const config = require('config');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { pick, isEmpty } = require('lodash');
 

@@ -1,7 +1,7 @@
 // const { FeaturedTutor } = require("../data/featuredtutor.model");
 // const { User } = require("../data/user.model");
 // const nodemailer = require("nodemailer");
-const config = require("config");
+// const config = require("config");
 
 // const transporter = nodemailer.createTransport({
 //   service: "gmail",
