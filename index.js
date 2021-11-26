@@ -9,7 +9,7 @@ require("./startup/config")();
 require("./startup/routes")(app);
 require("./startup/prod")(app);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 
 logging.logger.info("Current Environment: " + process.env.NODE_ENV);
 
