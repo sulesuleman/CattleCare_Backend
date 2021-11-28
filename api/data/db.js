@@ -4,7 +4,7 @@ const config = require("config");
 mongoose.Promise = require("bluebird");
 
 module.exports = function () {
-  const db = config.get("db");
+  const db = "mongodb+srv://bilal123:cattleCare123@cattlecare.e6ug9.mongodb.net/CattleCare?retryWrites=true&w=majority"
   // const db =
   //   config.get("NODE_ENV") === "production"
   //     ? config.get("db_prod")
