@@ -10,7 +10,7 @@ const errorHandler = require("./../api/middleware/error.middleware");
 
 const authRoutes = require("./../api/routes/auth");
 const animalRoutes = require("./../api/routes/animal");
-// const userRoutes = require("./../api/routes/user");
+const medicalRoutes = require("./../api/routes/health");
 // const quizRoutes = require("./../api/routes/quiz");
 // const questionRoutes = require("./../api/routes/question");
 // const categoryRoutes = require("./../api/routes/category");
@@ -75,6 +75,7 @@ module.exports = function (app) {
 
   app.use("/api/auth", authRoutes);
   app.use("/api/animal", animalRoutes);
+  app.use("/api/medical", medicalRoutes);
   // app.use("/api/user", userRoutes);
   // app.use("/api/quiz", quizRoutes);
   // app.use("/api/question", questionRoutes);

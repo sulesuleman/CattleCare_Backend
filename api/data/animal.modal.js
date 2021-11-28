@@ -22,13 +22,13 @@ const animalSchema = new mongoose.Schema({
     breedType: {
         type: String,
     },
-    CattleType: {
+    cattleType: {
         type: String,
     },
-    Sex: {
+    sex: {
         type: String
     },
-    Price: {
+    price: {
         type: Number,
     },
     anticipationDate: {
@@ -54,6 +54,7 @@ const animalSchema = new mongoose.Schema({
 
 
 function validateAnimal(animal) {
+    console.log('animal: ', animal);
     const schema = {
         cattleId: Joi.string().required(),
         weight: Joi.number().required(),
@@ -69,6 +70,7 @@ function validateAnimal(animal) {
 }
 
 function validateDeleteAnimal(body) {
+    console.log('body: ', body);
     const schema = {
         animalId: Joi.string().required(),
     };

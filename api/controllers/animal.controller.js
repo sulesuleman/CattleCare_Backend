@@ -65,10 +65,10 @@ module.exports.createAnimals = async (req, res) => {
             cattleId,
             weight,
             age,
-            price,
-            sex,
+            breedType,
             cattleType,
-            cattlBereed,
+            sex,
+            price,
             anticipationDate,
             childCount,
         }
@@ -89,7 +89,7 @@ module.exports.createAnimals = async (req, res) => {
             price,
             sex,
             cattleType,
-            cattlBereed,
+            breedType,
             anticipationDate,
             childCount,
             picture: fileUrl
