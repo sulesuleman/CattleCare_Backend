@@ -7,13 +7,9 @@ const { Animal, validateAnimal, addOwnerToCattle, validateDeleteAnimal } = requi
 module.exports.getAllAnimals = async (req, res) => {
     console.log("in get All Animal api");
 
-    const { user: { _id, email, name, role } } = req;
-
-    console.log(`user: ${_id, email, name, role}`);
-
     try {
 
-        const animals = await Animal.find({ isDeleted: false })
+        const animals = await Animal.find({ isDeleted: false }).populate('medicalHistory');
 
         console.log('Animals: ', animals);
 
@@ -33,31 +29,9 @@ module.exports.getAllAnimals = async (req, res) => {
 }
 
 
-// const createUser = async (req, res, next) => {
-//     let fileUrl = req.file.path.replace(/\\/g, "/").substring("public".length);
-//     let newUser = {
-//         username: req.body.username,
-//         password: req.body.password,
-//         email: req.body.email,
-//         picture: fileUrl,
-//         tokenId: req.body.tokenId
-//     };
-
-//     let createUser = await new user(newUser).save();
-
-//     if (createUser) {
-//         response.successResponse(res, {
-//             success: 1,
-//             message: "User created successfully",
-//             createUser,
-//         });
-//     }
-// };
-
-
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");
-    let fileUrl = req.file.path.replace(/\\/g, "/").substring("public".length);
+    let fileUrl = req.headers.host + req.file.path.replace(/\\/g, "/").substring("public".length);
     const {
         body,
         user: { _id, name, role, email },

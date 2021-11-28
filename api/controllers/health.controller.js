@@ -8,7 +8,6 @@ module.exports.getAnimalMedicalHistory = async (req, res) => {
 
     try {
         const medicalRecord = await Health.find({ isDeleted: false });
-
         res
             .status(200)
             .send({
@@ -74,91 +73,76 @@ module.exports.createAnimalMedicalRecord = async (req, res) => {
     }
 };
 
-// module.exports.deleteAnimal = async (req, res) => {
-//     console.log("in delete Animal api");
 
-//     const {
-//         params: { cattleId }
-//     } = req;
+module.exports.deleteAnimalMedicalRecord = async (req, res) => {
+    console.log("In delete Animal Medical Record Api");
 
-//     console.log(cattleId);
+    const {
+        params: { healthId }
+    } = req;
 
-//     try {
-//         const animal = await Animal.updateOne(
-//             { _id: cattleId },
-//             { isDeleted: true },
-//             { new: true, upsert: false })
+    try {
+        const animal = await Health.updateOne(
+            { _id: healthId },
+            { isDeleted: true },
+            { new: true, upsert: false })
 
-//         console.log('New Animal: ', animal);
 
-//         res
-//             .status(200)
-//             .send({
-//                 data: {},
-//                 error: false,
-//                 message: "Animal Deleted successfully",
-//             });
-//     } catch (e) {
-//         res.status(500).send({
-//             error: true, message: e.mesasge, data: {}
-//         })
-//     }
-// };
+        res
+            .status(200)
+            .send({
+                data: {},
+                error: false,
+                message: "Health Record Deleted successfully",
+            });
 
-// module.exports.updateAnimal = async (req, res) => {
-//     console.log("in update Animal api");
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+};
 
-//     const {
-//         body,
-//         params: { id },
-//         body: {
-//             picture,
-//             cattleId,
-//             weight,
-//             age,
-//             price,
-//             sex,
-//             cattleType,
-//             cattlBereed,
-//             anticipationDate,
-//             childCount,
-//         }
-//     } = req;
+module.exports.updateAnimalMedicalRecord = async (req, res) => {
+    console.log("in update Animal Medical Record Api");
 
-//     const { error } = validateAnimal(body);
-//     if (error)
-//         return res
-//             .status(400)
-//             .send({ error: true, message: error.details[0].message });
-//     try {
+    const {
+        body,
+        params: { id },
+        body: {
 
-//         const animal = await Animal.updateOne({
-//             _id: id,
-//         }, {
-//             cattleId,
-//             weight,
-//             age,
-//             price,
-//             sex,
-//             cattleType,
-//             cattlBereed,
-//             anticipationDate,
-//             childCount,
-//             picture
-//         }, { new: true, upsert: true });
+        }
+    } = req;
 
-//         console.log('New Animal: ', animal);
+    const { error } = validateAnimal(body);
+    if (error)
+        return res
+            .status(400)
+            .send({ error: true, message: error.details[0].message });
+    try {
 
-//         res
-//             .status(200)
-//             .send({
-//                 data: {},
-//                 error: false,
-//                 message: "Animal updated successfully",
-//             });
-//     } catch (e) {
-//         res.status(500).send({
-//             error: true, message: e.mesasge, data: {}
-//         })
-//     }
-// };
+        await Health.updateOne({
+            _id: id,
+        }, {
+            cattleId,
+            vaccinationType,
+            vaccinationDate,
+            vaccinationPeriod,
+            diseaseDate,
+            diseaseType,
+            recoveryStatus,
+        }, { new: true, upsert: true });
+
+        res
+            .status(200)
+            .send({
+                data: {},
+                error: false,
+                message: "Medical record updated successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+};
