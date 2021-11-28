@@ -1,13 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const errorHandler = require("./../api/middleware/error.middleware");
 const cors = require("cors");
 const path = require("path");
+
 // var cron = require("node-cron");
+const errorHandler = require("./../api/middleware/error.middleware");
 
 // const { adjustNewTutor } = require("./../api/cron-jobs");
 
 const authRoutes = require("./../api/routes/auth");
+const animalRoutes = require("./../api/routes/animal");
 // const userRoutes = require("./../api/routes/user");
 // const quizRoutes = require("./../api/routes/quiz");
 // const questionRoutes = require("./../api/routes/question");
@@ -72,6 +74,7 @@ module.exports = function (app) {
   // });
 
   app.use("/api/auth", authRoutes);
+  app.use("/api/animal", animalRoutes);
   // app.use("/api/user", userRoutes);
   // app.use("/api/quiz", quizRoutes);
   // app.use("/api/question", questionRoutes);

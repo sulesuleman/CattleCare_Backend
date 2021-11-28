@@ -13,8 +13,7 @@ module.exports = function () {
   mongoose.connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: false,
+    useFindAndModify: true
   });
 
   // CONNECTION EVENTS

@@ -4,7 +4,9 @@ const { User } = require('../data/user.model');
 const { isEmpty } = require('lodash');
 
 module.exports.authMiddle = function (req, res, next) {
-  const token = req.header('token');
+  const { headers: { authorization } } = req;
+  const token = authorization;
+  console.log('token: ', token);
 
   if (!token)
     return res
@@ -12,7 +14,8 @@ module.exports.authMiddle = function (req, res, next) {
       .send('Access Denied. You are not authorized to access this route.');
 
   try {
-    const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+    const decoded = jwt.verify(token.split(' ')[1],
+      config.get('jwtPrivateKey'));
     req.user = decoded;
     next();
   } catch (ex) {
@@ -36,41 +39,41 @@ module.exports.bindUser = function (req, res, next) {
   }
 };
 
-module.exports.isDeleted = async function (req, res, next) {
-  const {
-    user: { _id },
-  } = req;
-  const response = await User.findOne({ _id }, { isDeleted: 1 });
-  if (!isEmpty(response) && response.isDeleted === true) {
-    return res.status(400).send('Invalid User');
-  }
-  next();
-};
+// module.exports.isDeleted = async function (req, res, next) {
+//   const {
+//     user: { _id },
+//   } = req;
+//   const response = await User.findOne({ _id }, { isDeleted: 1 });
+//   if (!isEmpty(response) && response.isDeleted === true) {
+//     return res.status(400).send('Invalid User');
+//   }
+//   next();
+// };
 
-module.exports.isVerified = function (req, res, next) {
-  if (!req.user.isVerified) return res.status(401).send('Access Denied');
-  next();
-};
+// module.exports.isVerified = function (req, res, next) {
+//   if (!req.user.isVerified) return res.status(401).send('Access Denied');
+//   next();
+// };
 
-module.exports.isAdmin = function (req, res, next) {
-  if (!req.user.isAdmin)
-    return res.status(401).send('Admin scope - Access Denied');
-  next();
-};
+// module.exports.isAdmin = function (req, res, next) {
+//   if (!req.user.isAdmin)
+//     return res.status(401).send('Admin scope - Access Denied');
+//   next();
+// };
 
-module.exports.adminNotAllowed = function (req, res, next) {
-  if (req.user.isAdmin)
-    return res.status(401).send('Student scope - Access Denied');
-  next();
-};
+// module.exports.adminNotAllowed = function (req, res, next) {
+//   if (req.user.isAdmin)
+//     return res.status(401).send('Student scope - Access Denied');
+//   next();
+// };
 
-module.exports.isTutor = function (req, res, next) {
-  if (!req.user.isFarmer)
-    return res.status(401).send('Farmer scope - Access Denied');
-  next();
-};
+// module.exports.isTutor = function (req, res, next) {
+//   if (!req.user.isFarmer)
+//     return res.status(401).send('Farmer scope - Access Denied');
+//   next();
+// };
 
-module.exports.withAnswers = function (req, res, next) {
-  req.withAnswers = true;
-  next();
-};
+// module.exports.withAnswers = function (req, res, next) {
+//   req.withAnswers = true;
+//   next();
+// };

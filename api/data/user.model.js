@@ -49,6 +49,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  cattle: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Animal"
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
