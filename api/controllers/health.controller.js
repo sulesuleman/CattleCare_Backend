@@ -1,11 +1,7 @@
-import { Animal } from "../data/animal.modal";
-const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const config = require("config");
-const { Health, validateHealth, addAnimalToHealth } = require("../data/health.modal");
+const { Health, validateHealth, addAnimalToHealth } = require("../data/health.model");
 
 
-export const getAnimalMedicalHistory = async (req, res) => {
+module.exports.getAnimalMedicalHistory = async (req, res) => {
     console.log("in get All Animal Medical Record api");
 
     const { user: { _id, email, name, role } } = req;
@@ -30,7 +26,7 @@ export const getAnimalMedicalHistory = async (req, res) => {
 
 
 module.exports.createAnimalMedicalRecord = async (req, res) => {
-    console.log("In create Animal api");
+    console.log("In create Animal Medical Reecord api");
     const {
         body,
         user: { _id, name, role, email },
@@ -69,7 +65,7 @@ module.exports.createAnimalMedicalRecord = async (req, res) => {
             .send({
                 data: {},
                 error: false,
-                message: "Animal added successfully",
+                message: "Medical record added successfully",
             });
     } catch (e) {
         res.status(500).send({
