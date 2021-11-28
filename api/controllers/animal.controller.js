@@ -125,7 +125,6 @@ module.exports.updateAnimal = async (req, res) => {
         body,
         params: { id },
         body: {
-            picture,
             cattleId,
             weight,
             age,
