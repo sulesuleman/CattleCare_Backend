@@ -28,6 +28,54 @@ module.exports.getAllAnimals = async (req, res) => {
 
 }
 
+module.exports.getAllUserAnimals = async (req, res) => {
+    console.log("in get All Animal api");
+
+    const { user: { _id } } = req;
+    try {
+
+        const animals = await Animal.find({ isDeleted: false, OnwerId: _id });
+
+        console.log('Animals: ', animals);
+
+        res
+            .status(200)
+            .send({
+                data: { animals },
+                error: false,
+                message: "Animals fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
+
+
+module.exports.getSpecificAnimalById = async (req, res) => {
+    console.log("in get All Animal api");
+    const { params: { cattleId } } = req;
+
+    try {
+        const animal = await Animal.findOne({ _id: cattleId });
+
+        res
+            .status(200)
+            .send({
+                data: { animal },
+                error: false,
+                message: "Animal detail fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
+
 
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");
@@ -86,6 +134,8 @@ module.exports.createAnimals = async (req, res) => {
         })
     }
 };
+
+
 
 module.exports.deleteAnimal = async (req, res) => {
     console.log("in delete Animal api");
