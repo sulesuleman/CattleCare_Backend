@@ -76,7 +76,6 @@ module.exports.getSpecificAnimalById = async (req, res) => {
 
 }
 
-
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");
     let fileUrl = req.headers.host + req.file.path.replace(/\\/g, "/").substring("public".length);
