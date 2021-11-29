@@ -38,11 +38,9 @@ module.exports.getAllAnimalsByUserId = async (req, res) => {
     try {
 
         const animals = await Animal.find({ isDeleted: false ,ownerId:ownerId}).populate('medicalHistory');
-
         console.log('Animals: ', animals);
 
-        res
-            .status(200)
+        res.status(200)
             .send({
                 data: { animals },
                 error: false,
@@ -56,25 +54,23 @@ module.exports.getAllAnimalsByUserId = async (req, res) => {
 
 }
 
-module.exports.getAllAnimalsByAnimalId = async (req, res) => {
-    console.log("in get by id Animal api");
-    const {
-        params: { animalId }
-    } = req;
 
-    console.log(animalId);
+
+module.exports.getSpecificAnimalById = async (req, res) => {
+    console.log("in get All Animal api");
+    const { params: { animalId } } = req;
+
     try {
-
         const animals = await Animal.find({ isDeleted: false ,_id:animalId}).populate('medicalHistory');
 
         console.log('Animals: ', animals);
-
         res
             .status(200)
             .send({
                 data: { animals },
                 error: false,
                 message: "Animals fetched successfully",
+
             });
     } catch (e) {
         res.status(500).send({
@@ -83,6 +79,7 @@ module.exports.getAllAnimalsByAnimalId = async (req, res) => {
     }
 
 }
+
 
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");
@@ -141,6 +138,8 @@ module.exports.createAnimals = async (req, res) => {
         })
     }
 };
+
+
 
 module.exports.deleteAnimal = async (req, res) => {
     console.log("in delete Animal api");

@@ -1,7 +1,7 @@
 const { Health, validateHealth, addAnimalToHealth } = require("../data/health.model");
 
 
-module.exports.getAnimalMedicalHistory = async (req, res) => {
+module.exports.getAllAnimalMedicalHistory = async (req, res) => {
     console.log("in get All Animal Medical Record api");
 
     const { user: { _id, email, name, role } } = req;
@@ -13,7 +13,31 @@ module.exports.getAnimalMedicalHistory = async (req, res) => {
             .send({
                 data: { medicalRecord },
                 error: false,
-                message: "Animals fetched successfully",
+                message: "All medical history fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
+
+module.exports.getMedicalHistoryOfAnimal = async (req, res) => {
+    console.log("in get Medical Record  of specific animal api");
+
+    const {
+        params: { cattleId }
+    } = req;
+
+    try {
+        const record = await Health.find({ isDeleted: false, cattleId: cattleId });
+        res
+            .status(200)
+            .send({
+                data: { record },
+                error: false,
+                message: "Medical record fetched successfully",
             });
     } catch (e) {
         res.status(500).send({
