@@ -28,18 +28,19 @@ module.exports.getAllAnimals = async (req, res) => {
 
 }
 
-module.exports.getAllUserAnimals = async (req, res) => {
-    console.log("in get All Animal api");
+module.exports.getAllAnimalsByUserId = async (req, res) => {
+    console.log("in get by id Animal api");
+    const {
+        params: { ownerId }
+    } = req;
 
-    const { user: { _id } } = req;
+    console.log(ownerId);
     try {
 
-        const animals = await Animal.find({ isDeleted: false, OnwerId: _id });
-
+        const animals = await Animal.find({ isDeleted: false ,ownerId:ownerId}).populate('medicalHistory');
         console.log('Animals: ', animals);
 
-        res
-            .status(200)
+        res.status(200)
             .send({
                 data: { animals },
                 error: false,
@@ -54,19 +55,22 @@ module.exports.getAllUserAnimals = async (req, res) => {
 }
 
 
+
 module.exports.getSpecificAnimalById = async (req, res) => {
     console.log("in get All Animal api");
-    const { params: { cattleId } } = req;
+    const { params: { animalId } } = req;
 
     try {
-        const animal = await Animal.findOne({ _id: cattleId });
+        const animals = await Animal.find({ isDeleted: false ,_id:animalId}).populate('medicalHistory');
 
+        console.log('Animals: ', animals);
         res
             .status(200)
             .send({
-                data: { animal },
+                data: { animals },
                 error: false,
-                message: "Animal detail fetched successfully",
+                message: "Animals fetched successfully",
+
             });
     } catch (e) {
         res.status(500).send({
