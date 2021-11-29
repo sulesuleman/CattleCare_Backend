@@ -28,6 +28,61 @@ module.exports.getAllAnimals = async (req, res) => {
 
 }
 
+module.exports.getAllAnimalsByUserId = async (req, res) => {
+    console.log("in get by id Animal api");
+    const {
+        params: { ownerId }
+    } = req;
+
+    console.log(ownerId);
+    try {
+
+        const animals = await Animal.find({ isDeleted: false ,ownerId:ownerId}).populate('medicalHistory');
+
+        console.log('Animals: ', animals);
+
+        res
+            .status(200)
+            .send({
+                data: { animals },
+                error: false,
+                message: "Animals fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
+
+module.exports.getAllAnimalsByAnimalId = async (req, res) => {
+    console.log("in get by id Animal api");
+    const {
+        params: { animalId }
+    } = req;
+
+    console.log(animalId);
+    try {
+
+        const animals = await Animal.find({ isDeleted: false ,_id:animalId}).populate('medicalHistory');
+
+        console.log('Animals: ', animals);
+
+        res
+            .status(200)
+            .send({
+                data: { animals },
+                error: false,
+                message: "Animals fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
 
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");
