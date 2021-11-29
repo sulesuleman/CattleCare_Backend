@@ -134,7 +134,13 @@ module.exports.updateAnimalMedicalRecord = async (req, res) => {
         body,
         params: { id },
         body: {
-
+            cattleId,
+            vaccinationType,
+            vaccinationDate,
+            vaccinationPeriod,
+            diseaseDate,
+            diseaseType,
+            recoveryStatus
         }
     } = req;
 
