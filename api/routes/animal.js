@@ -5,7 +5,6 @@ const { createAnimals, getAllAnimals, getAllUserAnimals, getSpecificAnimalById, 
 const { authMiddle } = require('../middleware/auth.middleware');
 const { send } = require('../middleware/uploadAttachment.middleware');
 
-
 router.get("/all", authMiddle, getAllAnimals);
 router.get("/", authMiddle, getAllUserAnimals);
 router.get("/:cattleId", authMiddle, getSpecificAnimalById);

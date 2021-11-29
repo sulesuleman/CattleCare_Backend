@@ -17,7 +17,7 @@ let upload = () => {
 
 
 module.exports.send = (req, res, next) => {
-    if (req.body?.picture) {
+    if (req?.body?.picture) {
         next();
     }
     return upload().single('picture')(req, res, () => {

@@ -34,7 +34,7 @@ module.exports.getAllUserAnimals = async (req, res) => {
     const { user: { _id } } = req;
     try {
 
-        const animals = await Animal.find({ isDeleted: false, OnwerId: _id });
+        const animals = await Animal.find({ isDeleted: false, ownerId: _id });
 
         console.log('Animals: ', animals);
 
@@ -187,7 +187,7 @@ module.exports.updateAnimal = async (req, res) => {
             price,
             sex,
             cattleType,
-            cattlBereed,
+            breedType,
             anticipationDate,
             childCount,
         }
@@ -200,7 +200,7 @@ module.exports.updateAnimal = async (req, res) => {
         price,
         sex,
         cattleType,
-        cattlBereed,
+        breedType,
         anticipationDate,
         childCount
     }
@@ -221,7 +221,7 @@ module.exports.updateAnimal = async (req, res) => {
             price,
             sex,
             cattleType,
-            cattlBereed,
+            breedType,
             anticipationDate,
             childCount,
             picture
