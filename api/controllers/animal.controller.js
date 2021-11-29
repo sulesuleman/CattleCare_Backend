@@ -80,7 +80,8 @@ module.exports.getSpecificAnimalById = async (req, res) => {
 
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");
-    let fileUrl = req.headers.host + req.file.path.replace(/\\/g, "/").substring("public".length);
+    const url = req.protocol + '://' + req.get('host');
+    let fileUrl = url + req.file.path.replace(/\\/g, "/").substring("public".length);
     const {
         body,
         user: { _id, name, role, email },
@@ -176,6 +177,7 @@ module.exports.updateAnimal = async (req, res) => {
         body,
         params: { id },
         body: {
+            profilePicture,
             cattleId,
             weight,
             age,
@@ -188,7 +190,19 @@ module.exports.updateAnimal = async (req, res) => {
         }
     } = req;
 
-    const { error } = validateAnimal(body);
+    const data = {
+        cattleId,
+        weight,
+        age,
+        price,
+        sex,
+        cattleType,
+        cattlBereed,
+        anticipationDate,
+        childCount
+    }
+
+    const { error } = validateAnimal(data);
     if (error)
         return res
             .status(400)
@@ -207,7 +221,7 @@ module.exports.updateAnimal = async (req, res) => {
             cattlBereed,
             anticipationDate,
             childCount,
-            picture
+            picture: profilePicture
         }, { new: true, upsert: true });
 
         console.log('New Animal: ', animal);

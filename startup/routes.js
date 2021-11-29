@@ -25,7 +25,7 @@ const medicalRoutes = require("./../api/routes/health");
 module.exports = function (app) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+  app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
 
   /* Logging every request  */

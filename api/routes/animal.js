@@ -11,5 +11,5 @@ router.get("/", authMiddle, getAllUserAnimals);
 router.get("/:cattleId", authMiddle, getSpecificAnimalById);
 router.post("/create", authMiddle, send, createAnimals);
 router.put("/delete/:cattleId", authMiddle, deleteAnimal);
-router.put("/update/:id", authMiddle, updateAnimal);
-module.exports = router;
+router.put("/update/:id", authMiddle, send, updateAnimal);
+module.exports = router
