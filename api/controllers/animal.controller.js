@@ -1,7 +1,4 @@
-const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const config = require("config");
-const { Animal, validateAnimal, addOwnerToCattle, validateDeleteAnimal } = require("../data/animal.modal");
+const { Animal, validateAnimal, addOwnerToCattle } = require("../data/animal.modal");
 
 
 module.exports.getAllAnimals = async (req, res) => {
@@ -172,13 +169,9 @@ module.exports.deleteAnimal = async (req, res) => {
 
 module.exports.updateAnimal = async (req, res) => {
     console.log("in update Animal api");
-    let picture = req.body?.picture;
-    if (req.file) {
-        const url = req.protocol + '://' + req.get('host');
-        picture = url + req.file.path.replace(/\\/g, "/").substring("public".length);
-    }
     const {
         body,
+        file,
         params: { id },
         body: {
             cattleId,
@@ -192,6 +185,12 @@ module.exports.updateAnimal = async (req, res) => {
             childCount,
         }
     } = req;
+
+    var picture = body?.picture;
+    if (file) {
+        const url = req.protocol + '://' + req.get('host');
+        picture = url + req.file.path.replace(/\\/g, "/").substring("public".length);
+    }
 
     const data = {
         cattleId,
