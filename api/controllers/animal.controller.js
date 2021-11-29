@@ -28,19 +28,18 @@ module.exports.getAllAnimals = async (req, res) => {
 
 }
 
-module.exports.getAllAnimalsByUserId = async (req, res) => {
-    console.log("in get by id Animal api");
-    const {
-        params: { ownerId }
-    } = req;
+module.exports.getAllUserAnimals = async (req, res) => {
+    console.log("in get All Animal api");
 
-    console.log(ownerId);
+    const { user: { _id } } = req;
     try {
 
-        const animals = await Animal.find({ isDeleted: false ,ownerId:ownerId}).populate('medicalHistory');
+        const animals = await Animal.find({ isDeleted: false, OnwerId: _id });
+
         console.log('Animals: ', animals);
 
-        res.status(200)
+        res
+            .status(200)
             .send({
                 data: { animals },
                 error: false,
@@ -55,13 +54,12 @@ module.exports.getAllAnimalsByUserId = async (req, res) => {
 }
 
 
-
 module.exports.getSpecificAnimalById = async (req, res) => {
     console.log("in get All Animal api");
     const { params: { animalId } } = req;
 
     try {
-        const animals = await Animal.find({ isDeleted: false ,_id:animalId}).populate('medicalHistory');
+        const animals = await Animal.find({ isDeleted: false, _id: animalId }).populate('medicalHistory');
 
         console.log('Animals: ', animals);
         res
