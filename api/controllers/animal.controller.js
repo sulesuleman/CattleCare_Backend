@@ -172,12 +172,15 @@ module.exports.deleteAnimal = async (req, res) => {
 
 module.exports.updateAnimal = async (req, res) => {
     console.log("in update Animal api");
-
+    let picture = req.body?.picture;
+    if (req.file) {
+        const url = req.protocol + '://' + req.get('host');
+        picture = url + req.file.path.replace(/\\/g, "/").substring("public".length);
+    }
     const {
         body,
         params: { id },
         body: {
-            profilePicture,
             cattleId,
             weight,
             age,
@@ -221,7 +224,7 @@ module.exports.updateAnimal = async (req, res) => {
             cattlBereed,
             anticipationDate,
             childCount,
-            picture: profilePicture
+            picture
         }, { new: true, upsert: true });
 
         console.log('New Animal: ', animal);
