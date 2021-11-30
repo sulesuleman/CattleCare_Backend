@@ -19,10 +19,12 @@ let upload = () => {
 module.exports.send = (req, res, next) => {
     if (req?.body?.picture) {
         next();
-        return;
+
     }
-    return upload().single('picture')(req, res, () => {
-        if (!req.file) return res.json({ error: 'invalid file type' });
-        next();
-    });
+    else {
+        return upload().single('picture')(req, res, () => {
+            if (!req.file) return res.json({ error: 'invalid file type' });
+            next();
+        });
+    }
 };
