@@ -134,7 +134,6 @@ module.exports.updateAnimalMedicalRecord = async (req, res) => {
         body,
         params: { id },
         body: {
-            cattleId,
             vaccinationType,
             vaccinationDate,
             vaccinationPeriod,
@@ -144,17 +143,11 @@ module.exports.updateAnimalMedicalRecord = async (req, res) => {
         }
     } = req;
 
-    const { error } = validateAnimal(body);
-    if (error)
-        return res
-            .status(400)
-            .send({ error: true, message: error.details[0].message });
     try {
 
         await Health.updateOne({
             _id: id,
         }, {
-            cattleId,
             vaccinationType,
             vaccinationDate,
             vaccinationPeriod,
