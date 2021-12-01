@@ -8,7 +8,7 @@ const { send } = require('../middleware/uploadAttachment.middleware');
 router.get("/all", authMiddle, getAllAnimals);
 router.get("/", authMiddle, getAllUserAnimals);
 router.get("/:cattleId", authMiddle, getSpecificAnimalById);
-router.post("/create", authMiddle, send, createAnimals);
+router.post("/create", authMiddle, createAnimals);
 router.put("/delete/:cattleId", authMiddle, deleteAnimal);
-router.put("/update/:id", authMiddle, send, updateAnimal);
+router.put("/update/:id", authMiddle, updateAnimal);
 module.exports = router
