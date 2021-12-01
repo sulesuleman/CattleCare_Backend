@@ -18,7 +18,7 @@ const subscribeRoutes = require("./../api/routes/subscribe");
 module.exports = function (app) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
+  app.use("/uploads", express.static(path.join(__dirname, "./../public/uploads")));
 
 
   /* Logging every request  */
