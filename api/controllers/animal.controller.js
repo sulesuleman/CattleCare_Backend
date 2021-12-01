@@ -1,4 +1,7 @@
 const { Animal, validateAnimal, addOwnerToCattle } = require("../data/animal.modal");
+const csv = require('fast-csv');
+const fs = require('fs');
+const path = require("path");
 
 
 module.exports.getAllAnimals = async (req, res) => {
@@ -26,7 +29,7 @@ module.exports.getAllAnimals = async (req, res) => {
 }
 
 module.exports.getAllUserAnimals = async (req, res) => {
-    console.log("in get All Animal api");
+    console.log("in get All User Animal api");
 
     const { user: { _id } } = req;
     try {
@@ -74,6 +77,39 @@ module.exports.getSpecificAnimalById = async (req, res) => {
     }
 
 }
+
+
+module.exports.bulkCreateAnimals = async (req, res) => {
+    console.log("In Bulk Upload Animals Api", req.file);
+    const {
+        user: { _id }
+    } = req;
+
+    try {
+        let csvData = [];
+        let filePath = path.join(__dirname, "../../public/uploads/") + req.file.filename;
+        fs.createReadStream(filePath)
+            .pipe(csv.parse({ headers: true }))
+            .on("error", (error) => {
+                throw error.message;
+            })
+            .on("data", (row) => {
+                console.log('row: ', row);
+                csvData.push(row);
+            })
+            .on("end", async () => {
+                let dataToInsert = csvData.map(data => ({ ownerId: _id, ...data }))
+                const bulkAnimals = await Animal.insertMany(dataToInsert);
+            })
+
+        res.status(200).send({ error: false, data: {}, message: 'Animals uploaded successfully' })
+    }
+    catch (e) {
+        res.status(500).send({ error: true, message: e.message, data: {} })
+    }
+};
+
+
 
 module.exports.createAnimals = async (req, res) => {
     console.log("in create Animal api");

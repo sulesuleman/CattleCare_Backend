@@ -42,6 +42,10 @@ const animalSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Animal'
     }],
+    assignedFeeds: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Feed'
+    }],
     isDeleted: {
         type: Boolean,
         default: false,
@@ -81,7 +85,7 @@ function validateDeleteAnimal(body) {
 function addOwnerToCattle(ownerId, cattleId) {
     return User.findByIdAndUpdate(
         ownerId,
-        { cattle: cattleId },
+        { $push: { cattle: cattleId } },
         { new: true, useFindAndModify: false }
     );
 };

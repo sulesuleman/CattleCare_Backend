@@ -11,16 +11,9 @@ const errorHandler = require("./../api/middleware/error.middleware");
 const authRoutes = require("./../api/routes/auth");
 const animalRoutes = require("./../api/routes/animal");
 const medicalRoutes = require("./../api/routes/health");
-// const quizRoutes = require("./../api/routes/quiz");
-// const questionRoutes = require("./../api/routes/question");
-// const categoryRoutes = require("./../api/routes/category");
-// const answerRoutes = require("./../api/routes/answer");
-// const transactionRoutes = require("./../api/routes/transaction");
-// const bankDetailRoutes = require("./../api/routes/bankDetails");
-// const featuredTutorRoutes = require("./../api/routes/featured-tutors");
-// const inviteTutorRoutes = require("./../api/routes/inviteTutor");
-// const ratingRoutes = require("./../api/routes/rating");
-// const notificationRoutes = require('./../api/routes/notification');
+const feedRoutes = require("./../api/routes/feed");
+const userRoutes = require("./../api/routes/user");
+const subscribeRoutes = require("./../api/routes/subscribe");
 
 module.exports = function (app) {
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -76,17 +69,9 @@ module.exports = function (app) {
   app.use("/api/auth", authRoutes);
   app.use("/api/animal", animalRoutes);
   app.use("/api/medical", medicalRoutes);
-  // app.use("/api/user", userRoutes);
-  // app.use("/api/quiz", quizRoutes);
-  // app.use("/api/question", questionRoutes);
-  // app.use("/api/category", categoryRoutes);
-  // app.use("/api/answer", answerRoutes);
-  // app.use("/api/transactions", transactionRoutes);
-  // app.use("/api/bank-details", bankDetailRoutes);
-  // app.use("/api/featured-tutors", featuredTutorRoutes);
-  // app.use("/api/tutor", inviteTutorRoutes);
-  // app.use("/api/rating", ratingRoutes);
-  // app.use("/api/notification", notificationRoutes);
+  app.use("/api/feed", feedRoutes);
+  app.use("/api/user", userRoutes);
+  app.use("/api/stripe", subscribeRoutes);
   app.use(errorHandler.errorMiddleware);
 
   // cron.schedule("* * * * *", adjustNewTutor);

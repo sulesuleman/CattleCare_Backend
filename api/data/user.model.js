@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
   resetPassToken: {
     type: String,
   },
-  bankDetails: {
+  bankDetail: {
     type: Boolean,
     default: false,
   },
@@ -53,6 +53,12 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Animal"
+    }
+  ],
+  bankDetails: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bank"
     }
   ],
   createdAt: {

@@ -52,7 +52,7 @@ function validateHealth(animalHealth) {
 function addAnimalToHealth(animalId, healthId) {
     return Animal.findByIdAndUpdate(
         animalId,
-        { medicalHistory: healthId },
+        { $push: { medicalHistory: healthId } },
         { new: true, useFindAndModify: false }
     );
 };

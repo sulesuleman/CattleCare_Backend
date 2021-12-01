@@ -16,15 +16,20 @@ let upload = () => {
 };
 
 
-module.exports.send = (req, res, next) => {
-    if (req?.body?.picture) {
+module.exports.ImgMiddle = (req, res, next) => {
+    return upload().single('picture')(req, res, () => {
+        if (req?.body?.picture) {
+            return next();
+        }
+        else if (!req.file) return res.json({ error: 'invalid file type' });
         next();
+    });
+};
 
-    }
-    else {
-        return upload().single('picture')(req, res, () => {
-            if (!req.file) return res.json({ error: 'invalid file type' });
-            next();
-        });
-    }
+module.exports.csvMiddle = (req, res, next) => {
+    return upload().single('csvFile')(req, res, () => {
+        if (!req.file) return res.json({ error: 'No file uploaded' });
+        // if (!req.file.mimetype.includes("csv")) return res.json({ error: 'Please upload only csv file' })
+        else next();
+    });
 };
