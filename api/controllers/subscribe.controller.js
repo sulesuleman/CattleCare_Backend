@@ -1,6 +1,8 @@
 const { User } = require('../data/user.model');
-const { Bank, validateBankDetails, addOwnerToBankDetails } = require('../data/bannkDetails.model');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const { Bank, validateBankDetails, addOwnerToBankDetails } = require('../data/bankDetails.model');
+const config = require('config');
+const Stripe = require('stripe')
+const stripe = Stripe(config.get('stripeSecretKey'));
 
 
 module.exports.subscribePackage = async (req, res) => {
@@ -8,28 +10,33 @@ module.exports.subscribePackage = async (req, res) => {
 
         const {
             user: { _id },
-            body: { amount, source, receipt_email }
+            body: { amount, source, receipt_email, subscriptionPlan }
         } = req;
 
         const charge = await stripe.charges.create({
-            amount,
-            currency: 'pkr',
+            amount: parseInt(amount) * 100,
+            currency: 'PKR',
             source,
             receipt_email
         })
 
         if (!charge) throw new Error('charge unsuccessful')
 
-
-        await Bank.create({
+        const bank = await Bank.create({
             amount,
             source,
             receiptEmail: receipt_email
         })
 
-        const subscribedUser = await User.updateOne({ subscribed: true, bankDetail: true }, { _id: _id, isDeleted: false })
+        const subscribedUser = await User.updateOne(
+            { _id, isDeleted: false },
+            { subscribed: true, bankDetail: true, subscriptionPlan },
+            { new: true, upsert: false })
 
-        await addOwnerToBankDetails(_id, Bank._id);
+
+        console.log(subscribedUser);
+
+        await addOwnerToBankDetails(_id, bank._id);
 
         res.status(200).json({
             charge,

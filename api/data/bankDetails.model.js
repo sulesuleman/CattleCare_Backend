@@ -38,7 +38,7 @@ function validateBankDetails(details) {
 
 function addOwnerToBankDetails(ownerId, bankId) {
     return User.findByIdAndUpdate(
-        ownerId,
+        { _id: ownerId },
         { $push: { bankDetails: bankId } },
         { new: true, useFindAndModify: false }
     );

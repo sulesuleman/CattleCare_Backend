@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { getAllFarmerStats } = require("./../controllers/user.controller");
+const { getAllFarmerStats, getProfile, deleteUser, updateUser } = require("./../controllers/user.controller");
 const { authMiddle } = require('../middleware/auth.middleware');
 // const { send } = require('../middleware/uploadAttachment.middleware');
 
 router.get("/farmer/stats", authMiddle, getAllFarmerStats);
-// router.post("/create", authMiddle, createFeed);
-// router.put("/delete/:feedId", authMiddle, deleteFeedById);
+router.get("/me", authMiddle, getProfile);
+router.post("/update", authMiddle, updateUser);
+router.put("/delete", authMiddle, deleteUser);
 // router.put("/update/:id", authMiddle, updateFeedById);
 module.exports = router

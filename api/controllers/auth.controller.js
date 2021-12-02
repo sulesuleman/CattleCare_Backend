@@ -97,13 +97,13 @@ module.exports.loginUser = async (req, res) => {
   });
 
   if (user) {
-    const { _id, name, email, address, phoneNo } = user;
+    const { _id, name, email, address, phoneNo, subscribed } = user;
     bcrypt.compare(password, user.password).then((result) => {
       if (result) {
         const token = user.generateAuthToken();
         return res.status(200).send({
           error: false,
-          data: { token, _id, name, email, address, phoneNo },
+          data: { token, _id, name, email, address, phoneNo, subscribed },
           message: 'Successfully logged in',
         });
       }

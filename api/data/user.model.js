@@ -61,6 +61,9 @@ const userSchema = new mongoose.Schema({
       ref: "Bank"
     }
   ],
+  subscriptionPlan: {
+    type: Object
+  },
   createdAt: {
     type: Date,
     default: Date.now,

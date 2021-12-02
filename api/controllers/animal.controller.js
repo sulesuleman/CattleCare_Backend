@@ -31,7 +31,7 @@ module.exports.getAllAnimals = async (req, res) => {
 module.exports.getAllUserAnimals = async (req, res) => {
     console.log("in get All User Animal api");
 
-    const { user: { _id } } = req;
+    const { user: { _id }, query: { search } } = req;
     try {
 
         const animals = await Animal.find({ isDeleted: false, ownerId: _id });
@@ -164,9 +164,17 @@ module.exports.createAnimals = async (req, res) => {
                 message: "Animal added successfully",
             });
     } catch (e) {
-        res.status(500).send({
-            error: true, message: e.mesasge, data: {}
-        })
+        console.log(`Error obj ${e}`);
+        if (e.code === 11000 && e.name === 'MongoError') {
+            res.status(200).send({
+                error: true, message: 'CattleId already exist', data: {}
+            })
+        }
+        else {
+            res.status(500).send({
+                error: true, message: e.mesasge, data: {}
+            })
+        }
     }
 };
 

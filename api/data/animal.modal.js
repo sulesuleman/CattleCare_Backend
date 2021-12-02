@@ -8,6 +8,7 @@ const animalSchema = new mongoose.Schema({
     },
     cattleId: {
         type: String,
+        unique: true
     },
     picture: {
         type: String,
@@ -67,7 +68,7 @@ function validateAnimal(animal) {
         cattleType: Joi.string().required(),
         sex: Joi.string().required(),
         price: Joi.number().required(),
-        anticipationDate: Joi.string().required(),
+        anticipationDate: Joi.string().optional().allow(null).allow(''),
         childCount: Joi.number().required(),
     };
     return Joi.validate(animal, schema);
