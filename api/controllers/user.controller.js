@@ -2,12 +2,12 @@ const { Health } = require("../data/health.model");
 const { Animal } = require("../data/animal.modal");
 const { Feed } = require("../data/feed.model");
 const { User } = require("../data/user.model");
-
+const { Bank} = require('../data/bankDetails.model');
 module.exports.getAllFarmerStats = async (req, res) => {
     console.log("in get All Farmer Stats api");
 
     const { user: { _id, email, name, role } } = req;
-
+    console.log(_id)
     try {
         const totalStats = await Feed.count({ isDeleted: false, ownerId: _id });
         const totalAnimals = await Animal.count({ isDeleted: false, ownerId: _id });
@@ -19,6 +19,45 @@ module.exports.getAllFarmerStats = async (req, res) => {
                 data: { totalStats, totalAnimals, },
                 error: false,
                 message: "All medical history fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
+
+module.exports.getExpanses = async (req, res) => {
+    console.log("in get All Animal api");
+    let priceAnimal=0;
+    let priceFeed=0;
+    let priceBank=0;
+    let TotalExpense=0;
+    const { user: { _id, email, name, role } } = req;
+console.log(_id)
+    try {
+        const animals = await Animal.find({ isDeleted: false, ownerId: _id });
+        for (var i=0;i<animals.length;i++){
+            priceAnimal=priceAnimal+animals[i].price
+        }
+        const feeds = await Feed.find({ isDeleted: false, ownerId:_id});
+        for (var i=0;i<feeds.length;i++){
+            priceFeed=priceFeed+feeds[i].price
+        }
+        const bank = await Bank.find({ isDeleted: false,receiptEmail:email });
+        
+        for (var i=0;i<bank.length;i++){
+            priceBank=priceBank+bank[i].amount
+        }
+        TotalExpense=priceAnimal+priceFeed+priceBank
+        console.log('TotalExpense: ', TotalExpense);
+        res
+            .status(200)
+            .send({
+                data: { TotalExpense },
+                error: false,
+                message: "TotalExpense fetched successfully",
             });
     } catch (e) {
         res.status(500).send({

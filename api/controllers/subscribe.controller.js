@@ -48,3 +48,25 @@ module.exports.subscribePackage = async (req, res) => {
         })
     }
 }
+
+module.exports.getAllPackagesofOwner = async (req, res) => {
+    console.log("in get All Feeds api");
+
+    const { user: { email } } = req;
+
+    try {
+        const bank = await Bank.find({ isDeleted: false,receiptEmail:email });
+        res
+            .status(200)
+            .send({
+                data: { bank },
+                error: false,
+                message: "All bank fetched successfully",
+            });
+    } catch (e) {
+        res.status(500).send({
+            error: true, message: e.mesasge, data: {}
+        })
+    }
+
+}
