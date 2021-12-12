@@ -1,0 +1,9 @@
+cattleType,breedType,price,weight,age,anticipationDate,childCount,sex,cattleId
+desi,cow,21000,2555,32,22-21-22,2,female,1
+desi,cow,21000,2555,32,,2,male,2
+desi,cow,21000,2555,32,22-21-22,2,female,3
+desi,cow,21000,2555,32,,2,male,4
+desi,cow,21000,2555,32,22-21-22,2,female,5
+desi,cow,21000,2555,32,,2,male,6
+desi,cow,21000,2555,32,22-21-22,2,female,135789
+countrySide,buffelo,20000,20,5,,1,male,111124

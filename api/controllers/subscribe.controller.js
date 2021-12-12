@@ -10,7 +10,7 @@ module.exports.subscribePackage = async (req, res) => {
 
         const {
             user: { _id },
-            body: { amount, source, receipt_email, subscriptionPlan }
+            body: { amount, source, receipt_email, limit: packageLimit, subscriptionPlan }
         } = req;
 
         const charge = await stripe.charges.create({
@@ -25,6 +25,7 @@ module.exports.subscribePackage = async (req, res) => {
         const bank = await Bank.create({
             amount,
             source,
+            limit: packageLimit,
             receiptEmail: receipt_email
         })
 
@@ -40,7 +41,7 @@ module.exports.subscribePackage = async (req, res) => {
 
         res.status(200).json({
             charge,
-            message: 'Subscribed Successfully successfully'
+            message: 'Subscribed successfully'
         })
     } catch (error) {
         res.status(500).json({

@@ -8,7 +8,11 @@ const bankDetailsSchema = new mongoose.Schema({
     },
     amount: {
         type: Number
-    }, source: {
+    },
+    limit: {
+        type: Number
+    },
+    source: {
         type: String
     }, receiptEmail: {
         type: String

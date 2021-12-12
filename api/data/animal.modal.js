@@ -59,7 +59,7 @@ const animalSchema = new mongoose.Schema({
 
 
 function validateAnimal(animal) {
-    console.log('animal: ', animal);
+    console.log('Inside validate animal: ', animal);
     const schema = {
         cattleId: Joi.string().required(),
         weight: Joi.number().required(),

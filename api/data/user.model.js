@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isBlocked: {
+    type: Boolean,
+    default: false,
+  },
   isDeleted: {
     type: Boolean,
     default: false,
@@ -53,6 +57,12 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Animal"
+    }
+  ],
+  feeds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Feed"
     }
   ],
   bankDetails: [
@@ -103,6 +113,7 @@ function validateUser(user) {
     name: Joi.string().required(),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
+    confirmPassword: Joi.string().optional(),
     phoneNo: Joi.string().required(),
     address: Joi.string().required()
       .min(3).max(100)

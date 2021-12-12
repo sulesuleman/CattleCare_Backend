@@ -4,9 +4,12 @@ const {
   validateLoginUser,
   validateEmail,
 } = require('../data/user.model');
-
+const jwt_decode = require('jwt-decode');
 const bcrypt = require('bcryptjs');
 const { pick, isEmpty } = require('lodash');
+const config = require('config');
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(config.get('send_grid_key'))
 
 
 module.exports.signUpUser = async (req, res) => {
@@ -86,10 +89,10 @@ module.exports.loginUser = async (req, res) => {
       .send({ error: true, message: error.details[0].message });
 
 
-  const response = await User.findOne({ email }, { isDeleted: 1 });
-  // console.log('response', response);
-  if (!isEmpty(response) && response.isDeleted === true) {
-    return res.status(401).send({ error: true, message: 'No User Found' });
+  const response = await User.findOne({ email }, { isDeleted: 1, isBlocked: 1 });
+  console.log('response', response);
+  if (!isEmpty(response) && response.isDeleted === true || response.isBlocked === true) {
+    return res.status(200).send({ error: true, message: 'No User Found' });
   }
 
   let user = await User.findOne({
@@ -112,9 +115,8 @@ module.exports.loginUser = async (req, res) => {
         .send({ error: true, message: 'Invalid email or password' });
     });
   } else {
-    return res.status(404).send({ error: true, message: 'No User Found' });
+    return res.status(200).send({ error: true, message: 'No User Found' });
   }
-
 }
 
 
@@ -170,108 +172,84 @@ module.exports.loginUser = async (req, res) => {
 //   }
 // };
 
-// module.exports.forgetPassword = async (req, res) => {
-//   console.log('in forget password api');
-//   const {
-//     body: { email },
-//   } = req;
+module.exports.forgetPassword = async (req, res) => {
+  console.log('In forget password Api');
+  const {
+    body,
+    body: { email },
+  } = req;
 
-//   const user = await User.findOne({ email });
-//   if (!user)
-//     return res.status(404).send({ error: true, message: 'User not found' });
+  if (!body) {
+    return res.status(400).send({ error: true, message: 'Bad Request' });
+  }
 
-//   const resetPassToken = user.generateAuthToken();
+  const user = await User.findOne({ email });
+  if (!user)
+    return res.status(404).send({ error: true, message: 'User not found' });
 
+  const resetPassToken = user.generateAuthToken();
 
-//   await User.updateOne({ email }, { $set: { resetPassToken } });
-//   const msg = {
-//     to: `${email}`, // Change to your recipient
-//     from: {
-//       email: config.get('sender_email'), // Change to your verified sender
-//       name: 'The Gulf Academy'
-//     }, // Change to your verified sender
-//     subject: 'Gulf Academy - Reset Password Link',
-//     templateId: 'd-5cf921e229fc48baa989fd146ab05d87',
-//     dynamicTemplateData: {
-//       resetPassToken: resetPassToken,
-//     },
-//   }
+  await User.updateOne({ email }, { $set: { resetPassToken } });
 
-//   sgMail
-//     .send(msg)
-//     .then((response) => {
-//       console.log(response[0].statusCode)
-//       console.log(response[0].headers)
-//       return res.send({
-//         error: false,
-//         data: {},
-//         message: 'Message sent successfully',
-//       });
+  const msg = {
+    to: `${email}`, // Change to your recipient
+    from: {
+      email: config.get('sender_email'), // Change to your verified sender
+      name: 'Cattle Care'
+    }, // Change to your verified sender
+    subject: 'Cattle Care - Reset Password Link',
+    templateId: 'd-5a76f47c460e479ab586f949ce242406',
+    dynamicTemplateData: {
+      resetPassToken: resetPassToken,
+    },
+  }
 
-//     })
-//     .catch((error) => {
-//       console.error(error)
-//       return res
-//         .status(400)
-//         .send({ error: true, message: 'Message not Sent, try again.' });
-//     }
-//     )
-// };
+  sgMail
+    .send(msg)
+    .then((response) => {
+      console.log(response[0].statusCode)
+      console.log(response[0].headers)
+      return res.send({
+        error: false,
+        data: {},
+        message: 'Email sent successfully',
+      });
 
-
-// module.exports.unSubscribe = async (req, res) => {
-//   console.log('in unsubscribe user api');
-//   const {
-//     body: { token },
-//   } = req;
-//   try {
-//     let { _id } = await jwt.verify(token, config.get('jwtPrivateKey'));
-
-//     const { subscribeEmailNotification } = await User.findOneAndUpdate({ _id: _id },
-//       { subscribeEmailNotification: false },
-//       { subscribeEmailNotification: 1 });
-
-//     return res
-//       .status(201)
-//       .send({
-//         error: false,
-//         data: {},
-//         message: 'You are unsubscribed successfully',
-//       });
-//   }
-//   catch (e) {
-//     return res
-//       .status(400)
-//       .send({ error: true, message: 'Failed to Unsubscribe' });
-//   }
-// }
+    })
+    .catch((error) => {
+      console.error("error: ", error)
+      return res
+        .status(400)
+        .send({ error: true, message: 'Email not Sent, try again.' });
+    }
+    )
+};
 
 
-// module.exports.resetPassword = async (req, res) => {
-//   console.log('in reset password api');
-//   const {
-//     body: { resetPassToken, email, newPassword, confirmPassword },
-//   } = req;
+module.exports.resetPassword = async (req, res) => {
+  console.log('In reset password Api');
+  const {
+    body: { token, password: newPassword },
+  } = req;
 
-//   const user = await User.findOne({ email, resetPassToken });
-//   if (!user)
-//     return res.status(400).send({ error: true, message: 'Link Expired' });
+  var { email } = await jwt_decode(token);
 
-//   if (newPassword !== confirmPassword)
-//     return res
-//       .status(400)
-//       .send({ error: true, message: "Password doesn't matched" });
 
-//   const salt = await bcrypt.genSalt(10);
-//   const password = await bcrypt.hash(newPassword, salt);
+  const user = await User.findOne({ email, resetPassToken: token });
 
-//   const updatedUser = await User.updateOne(
-//     { email },
-//     { $set: { password, resetPassToken: null } }
-//   );
-//   const { n } = updatedUser;
-//   return res.send({
-//     error: n ? false : true,
-//     message: n ? 'Password reset successfully' : 'Password not reset',
-//   });
-// };
+  if (!user)
+    return res.status(400).send({ error: true, message: 'Link Expired' });
+
+  const salt = await bcrypt.genSalt(10);
+  const password = await bcrypt.hash(newPassword, salt);
+
+  const updatedUser = await User.updateOne(
+    { email },
+    { $set: { password, resetPassToken: null } }
+  );
+  const { n } = updatedUser;
+  return res.send({
+    error: n ? false : true,
+    message: n ? 'Password reset successfully' : 'Password not reset',
+  });
+};

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const { User } = require('./user.model');
 // const { User } = require('./user.model');
 
 const feedSchema = new mongoose.Schema({
@@ -56,15 +57,15 @@ function validateFeed(feed) {
 // }
 
 
-// function addOwnerToCattle(ownerId, cattleId) {
-//     return User.findByIdAndUpdate(
-//         ownerId,
-//         { cattle: cattleId },
-//         { new: true, useFindAndModify: false }
-//     );
-// };
+function addOwnerToFeed(ownerId, feedId) {
+    return User.findByIdAndUpdate(
+        ownerId,
+        { $push: { feeds: feedId } },
+        { new: true, useFindAndModify: false }
+    );
+};
 
 exports.Feed = mongoose.model('Feed', feedSchema);
 exports.validateFeed = validateFeed;
 // exports.validateDeleteAnimal = validateDeleteAnimal;
-// exports.addOwnerToCattle = addOwnerToCattle;
+exports.addOwnerToFeed = addOwnerToFeed;

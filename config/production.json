@@ -2,5 +2,7 @@
   "NODE_ENV": "prod_env",
   "jwtPrivateKey": "cattle_care_key",
   "db": "cattle_care_db",
-  "stripeSecretKey":"stripe_secret_key"
+  "stripeSecretKey":"stripe_secret_key",
+  "send_grid_key":"send_frid_key",
+  "sender_email":"sender_email"
 }

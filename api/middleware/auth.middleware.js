@@ -6,7 +6,6 @@ const { isEmpty } = require('lodash');
 module.exports.authMiddle = function (req, res, next) {
   const { headers: { authorization } } = req;
   const token = authorization;
-  console.log('token: ', token);
 
   if (!token)
     return res

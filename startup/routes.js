@@ -14,6 +14,7 @@ const medicalRoutes = require("./../api/routes/health");
 const feedRoutes = require("./../api/routes/feed");
 const userRoutes = require("./../api/routes/user");
 const subscribeRoutes = require("./../api/routes/subscribe");
+const expenseRoutes = require("./../api/routes/expense");
 
 module.exports = function (app) {
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -67,6 +68,7 @@ module.exports = function (app) {
   // });
 
   app.use("/api/auth", authRoutes);
+  app.use("/api/expense", expenseRoutes);
   app.use("/api/animal", animalRoutes);
   app.use("/api/medical", medicalRoutes);
   app.use("/api/feed", feedRoutes);
