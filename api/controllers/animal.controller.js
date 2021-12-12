@@ -132,7 +132,7 @@ module.exports.bulkCreateAnimals = async (req, res) => {
                 throw error.message;
             })
             .on("data", async (row) => {
-                const animal = await Animal.findOne({ cattleId: row.cattleId });
+                const animal = await Animal.findOne({ cattleId: row.cattleId, ownerId: _id });
                 if (animal === null) {
                     const { error } = await validateAnimal(row);
                     if (error) {

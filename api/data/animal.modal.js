@@ -8,7 +8,6 @@ const animalSchema = new mongoose.Schema({
     },
     cattleId: {
         type: String,
-        unique: true
     },
     picture: {
         type: String,
